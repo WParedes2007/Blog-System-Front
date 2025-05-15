@@ -1,3 +1,33 @@
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color: #213547; /* Color del texto */
+  background: linear-gradient(135deg, #ffffff, #f7f7f7, #eeeeee);
+  background-size: 400% 400%;
+  animation: subtleGradient 15s ease infinite;
+}
+
+/* Animación del fondo */
+@keyframes subtleGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;

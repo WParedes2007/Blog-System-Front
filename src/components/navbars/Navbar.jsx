@@ -1,15 +1,32 @@
-import { Box, Flex, Heading, Link } from "@chakra-ui/react";
+import { Box, Flex, IconButton, Heading, Text } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
+import { FaHome, FaLaptopCode } from "react-icons/fa"; 
 
 const Navbar = () => {
   return (
-    <Box bg="teal.500" color="white" px={6} py={4}>
+    <Box bg="teal.500" color="white" px={6} py={4} boxShadow="md">
       <Flex justifyContent="space-between" alignItems="center">
-        <Heading as="h1" size="lg">
-          <RouterLink to="/home">Blog System</RouterLink>
-        </Heading>
-        <Flex gap={4}>
-          <Link as={RouterLink} to="/home" color="white">Home</Link>
+        <Flex alignItems="center" gap={2}>
+          <FaLaptopCode fontSize="1.5rem" color="white" /> 
+          <Heading as="h1" size="lg" fontWeight="bold">
+            <RouterLink to="/home">
+              <Text as="span" display="inline" color="white">
+                Blog System
+              </Text>
+            </RouterLink>
+          </Heading>
+        </Flex>
+
+        <Flex gap={4} alignItems="center">
+          <IconButton
+            as={RouterLink}
+            to="/home"
+            icon={<FaHome />}
+            aria-label="Home"
+            color="white"
+            variant="ghost"
+            fontSize="1.5rem"
+          />
         </Flex>
       </Flex>
     </Box>

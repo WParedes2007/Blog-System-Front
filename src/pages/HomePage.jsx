@@ -5,7 +5,7 @@ import PostList from "../components/posts/PostList.jsx";
 const HomePage = () => {
   return (
     <Box p={8}>
-      <Heading as="h2" size="lg" mb={6}>Main Page</Heading>
+      <Heading as="h2" size="lg" mb={6}></Heading>
       <PostList />
     </Box>
   );
