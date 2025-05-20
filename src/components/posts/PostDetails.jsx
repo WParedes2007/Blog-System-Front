@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Box, Heading, Text, IconButton, Flex, VStack, Collapse, Badge } from "@chakra-ui/react";
 import { FaHeart, FaRegHeart, FaComment } from "react-icons/fa";
 import { useParams } from "react-router-dom";
-import { getPostById, getCommentsByPostId } from "../../services/api.jsx";
+import { getPostById, getCommentsByPostId, deleteComment, updateComment } from "../../services/api.jsx"; // Asegúrate de tener estas funciones
 import CommentForm from "../comments/CommentForm.jsx";
 import CommentList from "../comments/CommentList.jsx";
 
@@ -14,8 +14,16 @@ const PostDetails = () => {
   const [liked, setLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
 
-  useEffect(() => {
-    const fetchPost = async () => {
+  const fetchComments = async () => {
+      const response = await getCommentsByPostId(id);
+      if (!response.error) {
+        setComments(response.data);
+      } else {
+        console.error("Error al obtener los comentarios:", response.e);
+      }
+  };
+
+  const fetchPost = async () => {
       const response = await getPostById(id);
       if (!response.error) {
         setPost(response.data);
@@ -25,15 +33,7 @@ const PostDetails = () => {
       }
     };
 
-    const fetchComments = async () => {
-      const response = await getCommentsByPostId(id);
-      if (!response.error) {
-        setComments(response.data);
-      } else {
-        console.error("Error al obtener los comentarios:", response.e);
-      }
-    };
-
+  useEffect(() => {
     fetchPost();
     fetchComments();
   }, [id]);
@@ -47,8 +47,37 @@ const PostDetails = () => {
     fetchComments();
   };
 
+  const handleDelete = async (commentId) => {
+    try {
+      // Implementar la lógica para eliminar el comentario en el backend
+      const response = await deleteComment(commentId);
+      if (!response.error) {
+        setComments(comments.filter((comment) => comment._id !== commentId)); // Actualiza el estado de los comentarios
+      }
+    } catch (error) {
+      console.error("Error al eliminar el comentario:", error);
+    }
+  };
+
+  const handleEdit = async (commentId) => {
+    const newContent = prompt("Edita tu comentario:"); // Aquí se podría reemplazar por un modal
+    if (!newContent) return;
+
+    try {
+      // Llamada para actualizar el comentario en el backend
+      const response = await updateComment(commentId, newContent);
+      if (!response.error) {
+        setComments(comments.map((comment) =>
+          comment._id === commentId ? { ...comment, content: newContent } : comment
+        ));
+      }
+    } catch (error) {
+      console.error("Error al editar el comentario:", error);
+    }
+  };
+
   return (
-    <Box p={8} maxW="600px" mx="auto" borderWidth="1px" borderRadius="lg" overflow="hidden">
+    <Box p={8} maxW="600px" mx="auto" borderWidth="1px" borderRadius="lg" overflow="hidden" bg="white">
       <Flex align="center" mb={4}>
         <Box bg="orange.400" w="40px" h="40px" borderRadius="full" mr={3}></Box>
         <Heading as="h3" size="md">{post.title}</Heading>
@@ -81,7 +110,11 @@ const PostDetails = () => {
 
       <Collapse in={showComments} animateOpacity>
         <VStack spacing={4} align="stretch">
-          <CommentList comments={comments} />
+          <CommentList 
+            comments={comments} 
+            handleDelete={handleDelete} 
+            handleEdit={handleEdit} 
+          />
           <CommentForm postId={id} onCommentAdded={handleCommentAdded} />
         </VStack>
       </Collapse>

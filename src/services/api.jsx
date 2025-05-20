@@ -46,3 +46,22 @@ export const addComment = async (data) => {
     return { error: true, e };
   }
 };
+
+
+export const deleteComment = async (commentId) => {
+  try {
+    return await apiClient.delete(`/comments/${commentId}`);
+  } catch (e) {
+    console.error("Error al eliminar el comentario:", e.message);
+    return { error: true, e };
+  }
+};
+
+export const updateComment = async (commentId, content) => {
+  try {
+    return await apiClient.put(`/comments/${commentId}`, { content });
+  } catch (e) {
+    console.error("Error al editar el comentario:", e.message);
+    return { error: true, e };
+  }
+};

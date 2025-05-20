@@ -22,20 +22,6 @@ a:hover {
   color: #535bf2;
 }
 
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  color: #213547;
-  /* Degradado MUY visible */
-  background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 50%, #0052d4 100%);
-  background-attachment: fixed;
-  background-size: cover;
-  animation: gradientBG 20s ease-in-out infinite;
-}
-
-/* Animación suave del fondo */
 @keyframes gradientBG {
   0% {
     background-position: 0% 50%;
@@ -46,6 +32,17 @@ body {
   100% {
     background-position: 0% 50%;
   }
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color: #213547;
+  background: linear-gradient(120deg, cyan.50, orange.400);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease-in-out infinite; /* Animación dinámica */
 }
 
 h1 {
